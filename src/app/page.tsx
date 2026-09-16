@@ -1,69 +1,178 @@
-import Image from "next/image";
+"use client";
+
+import { useState } from "react";
+import Navbar from "@/components/landing/Navbar";
+import Hero from "@/components/landing/Hero";
+import Footer from "@/components/landing/Footer";
+import Button from "@/components/ui/Button";
+import Input from "@/components/ui/Input";
+import Select from "@/components/ui/Select";
+import Textarea from "@/components/ui/Textarea";
+import NumberInput from "@/components/ui/NumberInput";
+import Checkbox from "@/components/ui/CheckBox";
+import DatePicker from "@/components/ui/DatePicker";
+import Card from "@/components/ui/Card";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/Table";
+import Badge from "@/components/ui/Badge";
+import FormCard from "@/components/e-cerapan/form/FormCard";
+import FormSection from "@/components/e-cerapan/form/FormSection";
+import FormField from "@/components/e-cerapan/form/FormField";
+import FormActions from "@/components/e-cerapan/form/FormActions";
+import AlertMessage from "@/components/e-cerapan/feedback/AlertMessage";
+import ConfirmModal from "@/components/e-cerapan/feedback/ConfirmModal";
+import MessageModal from "@/components/e-cerapan/feedback/MessageModal";
+import StatCard from "@/components/e-cerapan/cards/StatCard";
+import Breadcrumb from "@/components/e-cerapan/layout/Breadcrumb";
+import RadioGroup from "@/components/ui/RadioGroup";
 
 export default function Home() {
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("");
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="min-h-screen bg-background">
+      <Navbar />
+      <Hero />
+      <Input type="email" placeholder="Masukkan email" />
+      <Select
+        placeholder="Pilih jenis alat"
+        options={[
+          {
+            label: "Pompa Ukur BBM",
+            value: "pompa-ukur-bbm",
+          },
+          {
+            label: "Meter Arus",
+            value: "meter-arus",
+          },
+        ]}
+      />
+      <Textarea placeholder="Masukkan keterangan" />
+      <NumberInput min={0} step="0.01" placeholder="Masukkan nilai" />
+      <Checkbox label="Sudah diperiksa" />
+      <RadioGroup
+        name="penilaian"
+        value={value}
+        onChange={setValue}
+        options={[
+          {
+            label: "Ya",
+            value: "ya",
+          },
+          {
+            label: "Tidak",
+            value: "tidak",
+          },
+        ]}
+      />
+      <DatePicker />
+      <Card className="p-6 w-40">
+        <p>Isi card</p>
+      </Card>
+
+      <Badge variant="warning">SAH</Badge>
+
+      <FormCard title="Data Pengujian">
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableHeader>No</TableHeader>
+              <TableHeader>Deskripsi</TableHeader>
+              <TableHeader>Penilaian</TableHeader>
+              <TableHeader>Keterangan</TableHeader>
+            </TableRow>
+          </TableHead>
+
+          <TableBody>
+            <TableRow>
+              <TableCell>1</TableCell>
+              <TableCell>
+                Apakah PU BBM dilengkapi dengan persetujuan tipe?
+              </TableCell>
+              <TableCell>...</TableCell>
+              <TableCell>...</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </FormCard>
+      <FormSection
+        title="Identitas Pemilik"
+        description="Masukkan data pemilik atau penanggung jawab."
+      >
+        ...
+      </FormSection>
+      <FormField label="Nomor Order" required>
+        <Input placeholder="cth. ORD-0001" />
+      </FormField>
+      <FormActions
+        left={
+          <Button variant="outline" fullWidth>
+            Kembali ke Pemeriksaan
+          </Button>
+        }
+        right={<Button fullWidth>Lanjut ke Pengujian</Button>}
+      />
+      <AlertMessage
+        variant="danger"
+        message="Lengkapi semua penilaian checklist sebelum validasi"
+      />
+      {/* <ConfirmModal
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
+        onConfirm={handleSave}
+        title="Konfirmasi Pengiriman"
+        description="Tindakan ini tidak dapat dibatalkan"
+        confirmText="Konfirmasi & Simpan"
+      >
+        <div className="space-y-3 border-y border-gray-200 py-4">
+          <div className="flex justify-between text-sm">
+            <span className="text-neutral">No. Pengujian</span>
+            <span className="font-semibold text-black">PU-BBM-2024-0847</span>
+          </div>
+
+          <div className="flex justify-between text-sm">
+            <span className="text-neutral">Tanggal</span>
+            <span className="font-semibold text-black">2026-09-13</span>
+          </div>
+
+          <div className="flex justify-between text-sm">
+            <span className="text-neutral">Jenis Alat</span>
+            <span className="font-semibold text-black">Pompa Ukur BBM</span>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+      </ConfirmModal> */}
+      {/* <MessageModal
+        open={showMessage}
+        onClose={() => setShowMessage(false)}
+        variant="success"
+        title="Berhasil"
+        message="Data pengujian berhasil disimpan."
+      /> */}
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <StatCard value={3} label="Nozzle Batal" valueColor="primary" />
+        <StatCard value={3} label="Nozzle Batal" valueColor="success" />
+        <StatCard value={3} label="Nozzle Batal" valueColor="neutral" />
+        <StatCard value={2} label="Nozzle Batal" valueColor="danger" />
+      </div>
+      <Breadcrumb
+        items={[
+          {
+            label: "E-Cerapan",
+            href: "/e-cerapan",
+          },
+          {
+            label: "Cerapan Pompa Ukur BBM",
+          },
+        ]}
+      />
+      <Footer />
+    </main>
   );
 }

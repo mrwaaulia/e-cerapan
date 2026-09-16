@@ -1,7 +1,7 @@
 import React from "react";
 
 function Hero() {
-  return <div>Hero</div>;
+  return <div>Hero example</div>;
 }
 
 export default Hero;
